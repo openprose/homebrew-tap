@@ -87,7 +87,14 @@ source and archive identities. The [local installation receipt](records/0.15.0-r
 records isolated installation and switching checks for the initial RC2 release. CI tests both implementations
 and command selection without provider calls. Future updates require a reviewed
 new public release, rendered formula diff and install/test checks before changing
-the tap. A future version-to-version upgrade remains to be tested.
+the tap. No version-to-version upgrade has executed for the initial RC2 tap: its base
+has no earlier formula release. When a future candidate advances the selected
+release, the same four-platform CI installs the genuine qualified base archives
+and upgrades both formulas with Bun selected, then repeats with Rust selected.
+It checks that both versions advance and the selected `prose` remains unchanged.
+The helper restores candidate formulas on failure; it never relabels release
+bytes to manufacture an upgrade. Bootstrap and same-version checks report an
+explicit skip, with the concrete base/candidate commits retained in CI artifacts.
 
 The scheduled update workflow checks the public guarded
 [RC pointer](https://pkg.prose.md/cli/channels/rc.json) hourly. It verifies the

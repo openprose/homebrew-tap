@@ -50,3 +50,27 @@ jobs:
           brew link openprose/tap/prose-rust
           test "$(prose --version)" = "prose $version (rust)"
           brew uninstall prose-bun prose-rust
+      - name: Check genuine prior-release upgrades when available
+        env:
+          UPGRADE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          tap="$(brew --repo openprose/tap)"
+          if [ -n "$UPGRADE_BASE_SHA" ]; then
+            if [[ ! "$UPGRADE_BASE_SHA" =~ ^[0-9a-f]{40}$ ]]; then exit 1; fi
+            git -C "$tap" fetch --no-tags --depth=1 origin "$UPGRADE_BASE_SHA"
+          else
+            git -C "$tap" fetch --no-tags --depth=1 origin main
+          fi
+          base_sha="$(git -C "$tap" rev-parse FETCH_HEAD)"
+          python3 scripts/check_upgrade.py --root "$tap" --base "$base_sha" --candidate "$GITHUB_SHA" --output "$RUNNER_TEMP/homebrew-upgrade"
+      - name: Retain upgrade outcome and logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: homebrew-upgrade-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/homebrew-upgrade/upgrade.json
+            ${{ runner.temp }}/homebrew-upgrade/*.log
+          retention-days: 14
+          if-no-files-found: warn
