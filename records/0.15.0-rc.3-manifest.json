@@ -1,0 +1,267 @@
+{
+  "artifacts": [
+    {
+      "implementation": "rust",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-darwin-arm64.tar.gz",
+      "platform": "darwin-arm64",
+      "sha256": "7fb6507a730bdc8f0559787033359b20fc61b90d62778a53fefc31691276b152",
+      "size": 3202751
+    },
+    {
+      "implementation": "bun",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-darwin-arm64.tar.gz",
+      "platform": "darwin-arm64",
+      "sha256": "e7bb95bbf9b67204a72fb927f730c5ec53e6d6aa36fc899d5794bd9bc081e9b4",
+      "size": 22639311
+    },
+    {
+      "implementation": "bun",
+      "kind": "npm",
+      "name": "openprose-prose-cli-0.15.0-rc.3.tgz",
+      "platform": "all",
+      "sha256": "042314125fa7c17cfe12f6d6ab452ca508f6cb3823310b26eed436ecbfe96ceb",
+      "size": 8385
+    },
+    {
+      "implementation": "bun",
+      "kind": "npm",
+      "name": "openprose-prose-cli-darwin-arm64-0.15.0-rc.3.tgz",
+      "platform": "darwin-arm64",
+      "sha256": "5b855594b5c309c90fc0871580ed1b348fd5617e47482db4f79e29d59fc735e4",
+      "size": 22636494
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "darwin-arm64-build-report.json",
+      "platform": "darwin-arm64",
+      "sha256": "7306027bafe1a3cfccccaf68001ece78ea9ff7ded321beebd7edb22cba9f5ebf",
+      "size": 4191
+    },
+    {
+      "implementation": "rust",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-darwin-x64.tar.gz",
+      "platform": "darwin-x64",
+      "sha256": "ad1bc60edc609bd1bcb78d7cbeddc132263467f9833d18d00ce8f86ac734a0fa",
+      "size": 3432708
+    },
+    {
+      "implementation": "bun",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-darwin-x64.tar.gz",
+      "platform": "darwin-x64",
+      "sha256": "a6c52869faca01f7f3b4024392a61f0d98d5ccffc1fef1c67188bb14aa71bdb6",
+      "size": 25122622
+    },
+    {
+      "implementation": "bun",
+      "kind": "npm",
+      "name": "openprose-prose-cli-darwin-x64-0.15.0-rc.3.tgz",
+      "platform": "darwin-x64",
+      "sha256": "c1c4c6ea49243c5dbf397044342a3f1e09958b8197ea58d5aabc39dd629b063f",
+      "size": 25121961
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "darwin-x64-build-report.json",
+      "platform": "darwin-x64",
+      "sha256": "f290631d0b82f97412af2d712cce1970ebaebd78e1c47519e59f0c4d254560b7",
+      "size": 4182
+    },
+    {
+      "implementation": "rust",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-linux-arm64-gnu.tar.gz",
+      "platform": "linux-arm64-gnu",
+      "sha256": "2a79fdc3014c06308b9833f5fba3be170379d460fb3d4da5b3f1dce60d5546d3",
+      "size": 3364514
+    },
+    {
+      "implementation": "bun",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-linux-arm64-gnu.tar.gz",
+      "platform": "linux-arm64-gnu",
+      "sha256": "5dea2752c4dc1ab967c4e1c7006e5e496788c08ba4a6198cc566a18360ebc5d6",
+      "size": 38248549
+    },
+    {
+      "implementation": "bun",
+      "kind": "npm",
+      "name": "openprose-prose-cli-linux-arm64-gnu-0.15.0-rc.3.tgz",
+      "platform": "linux-arm64-gnu",
+      "sha256": "8b2f2b0173aa47a9f6d5f6c169a728a35253b6de914c307172a458d004a7ac9d",
+      "size": 38242210
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "linux-arm64-gnu-build-report.json",
+      "platform": "linux-arm64-gnu",
+      "sha256": "87ff88035b9d61d6f7d0d0dda2f75e84e6179040d6484e881aa02b5f60ad128b",
+      "size": 3904
+    },
+    {
+      "implementation": "rust",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-linux-x64-gnu.tar.gz",
+      "platform": "linux-x64-gnu",
+      "sha256": "804bbd4d93ba975d80a1ca3c96313de65ca4b404177ab2a671d8d2ccf3b291e7",
+      "size": 3548704
+    },
+    {
+      "implementation": "bun",
+      "kind": "standalone",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-linux-x64-gnu.tar.gz",
+      "platform": "linux-x64-gnu",
+      "sha256": "67f8e7e3ce2b6d06f5dbb19413616cad6f1e8893532affbbfae9a8256db5c49e",
+      "size": 39659880
+    },
+    {
+      "implementation": "bun",
+      "kind": "npm",
+      "name": "openprose-prose-cli-linux-x64-gnu-0.15.0-rc.3.tgz",
+      "platform": "linux-x64-gnu",
+      "sha256": "ba348b57648bea9da4e28c1b1ee9bcec59051b2d89724a4274c2988fec5ceb79",
+      "size": 39658689
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "linux-x64-gnu-build-report.json",
+      "platform": "linux-x64-gnu",
+      "sha256": "7a63f0a39f89696b2bdf262cbcd581fcb4c33342cc1c4043bc3c81f31be2504b",
+      "size": 3896
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "SHA256SUMS",
+      "platform": "all",
+      "sha256": "5416b484ff00738a54e277cfc1bd5f78e681414760f2fc9ff3f1d8d7f4ea6d5b",
+      "size": 1548
+    },
+    {
+      "implementation": "shared",
+      "kind": "evidence",
+      "name": "kernel-rc-release-evidence.json",
+      "platform": "all",
+      "sha256": "f92787adb341a54a62fe6a4d1dbee8bb858830fb4a88802517d9bab7e156716b",
+      "size": 6079
+    },
+    {
+      "implementation": "rust",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-darwin-arm64.tar.gz.sigstore.json",
+      "platform": "darwin-arm64",
+      "sha256": "2b7fe46a90c3090d88211d43dc3d14f87cd40861c962ddb5bc14454ceb0917c4",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-darwin-arm64.tar.gz.sigstore.json",
+      "platform": "darwin-arm64",
+      "sha256": "13151634b973b6025be0b21dafbbd1a46ab2e20fca404c30af32c02c4e7dbc63",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-0.15.0-rc.3.tgz.sigstore.json",
+      "platform": "all",
+      "sha256": "5fdaf97103d097ec80b5dcc626c2a44292aed996d57560da5d698dd2cbfdd180",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-darwin-arm64-0.15.0-rc.3.tgz.sigstore.json",
+      "platform": "darwin-arm64",
+      "sha256": "6caea666c9d64015ef562c04ff3b42492615469a77c21d1f4edc4b876a10c481",
+      "size": 8893
+    },
+    {
+      "implementation": "rust",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-darwin-x64.tar.gz.sigstore.json",
+      "platform": "darwin-x64",
+      "sha256": "918aac374595e26a276ce4192e918c5cf0b0978600226573983188a717ece5cc",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-darwin-x64.tar.gz.sigstore.json",
+      "platform": "darwin-x64",
+      "sha256": "13599c62cb46ae57f571491dac3d5769f044a659609ffca4cf7ec61d07fc8398",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-darwin-x64-0.15.0-rc.3.tgz.sigstore.json",
+      "platform": "darwin-x64",
+      "sha256": "7ee67315126361309ae31f7f68571652442d26e4a5740ca4be6bdc099a80f804",
+      "size": 8893
+    },
+    {
+      "implementation": "rust",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-linux-arm64-gnu.tar.gz.sigstore.json",
+      "platform": "linux-arm64-gnu",
+      "sha256": "7002d88c96e0fbc99bac1121bdda0a14f9a5171b3113e086eba710b39143ea06",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-linux-arm64-gnu.tar.gz.sigstore.json",
+      "platform": "linux-arm64-gnu",
+      "sha256": "c56011926432c124cbb68533ae9763c96310f7487bf522328a0d38671926ca3b",
+      "size": 8909
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-linux-arm64-gnu-0.15.0-rc.3.tgz.sigstore.json",
+      "platform": "linux-arm64-gnu",
+      "sha256": "93893f3e65d4c127fb60cc3655a3f218d9401edb978c97d2ac5c8c3002ac0f6d",
+      "size": 8909
+    },
+    {
+      "implementation": "rust",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-rust-0.15.0-rc.3-linux-x64-gnu.tar.gz.sigstore.json",
+      "platform": "linux-x64-gnu",
+      "sha256": "ecb0cc9b3d37918803ce1cf5dbf4f6821fa09854cf9e77a3aaada65b1711ba7c",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-bun-0.15.0-rc.3-linux-x64-gnu.tar.gz.sigstore.json",
+      "platform": "linux-x64-gnu",
+      "sha256": "fb62a7c2db27d974cc5d521a567889385cf66e4eff28dab05f261640a999285d",
+      "size": 8893
+    },
+    {
+      "implementation": "bun",
+      "kind": "evidence",
+      "name": "openprose-prose-cli-linux-x64-gnu-0.15.0-rc.3.tgz.sigstore.json",
+      "platform": "linux-x64-gnu",
+      "sha256": "d19ced61888ec9e3d6f23a33352581193b85031f35395e4eae9f3fc6ad0b7a1b",
+      "size": 8893
+    }
+  ],
+  "qualification": {
+    "evidence": "https://github.com/openprose/openprose-expedition/tree/da328a666536b555f37c4aef1da891ad3ccb8caf/imp-014-rc3-oct06/qualification",
+    "status": "kernel-smoke-qualified"
+  },
+  "schema": "openprose.cli-distribution/1",
+  "source": "1941a34c3503f9a1417aebea1bc19ecada91e58c",
+  "version": "0.15.0-rc.3"
+}

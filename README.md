@@ -20,7 +20,7 @@ prose --version
 ```
 
 There is no default `openprose/tap/prose` formula or alias yet. Both formulas
-currently select `0.15.0-rc.2`. They support macOS and glibc Linux on ARM64 and
+currently select `0.15.0-rc.3`. They support macOS and glibc Linux on ARM64 and
 x86-64. Linux requires glibc 2.34 or newer. These are prereleases; the macOS
 executables are not Developer ID signed or notarized.
 
@@ -82,7 +82,7 @@ disclosure. A prerelease version must use the explicit `rc` channel; it does
 not require a separate formula name. Do not select an unqualified development
 archive or promote a prerelease as stable.
 
-Retained [release inputs](records/0.15.0-rc.2-inputs.json) bind the original
+Retained [release inputs](records/0.15.0-rc.3-inputs.json) bind the original
 source and archive identities. The [local installation receipt](records/0.15.0-rc.2-local-install.json)
 records isolated installation and switching checks for the initial RC2 release. CI tests both implementations
 and command selection without provider calls. Future updates require a reviewed

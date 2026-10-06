@@ -1,26 +1,26 @@
 class ProseRust < Formula
   desc "Run Prose programs through an installed agent harness"
   homepage "https://prose.md"
-  version "0.15.0-rc.2"
+  version "0.15.0-rc.3"
   license "MIT"
   on_macos do
     on_arm do
-      url "https://pkg.prose.md/cli/releases/0.15.0-rc.2/openprose-prose-cli-rust-0.15.0-rc.2-darwin-arm64.tar.gz"
-      sha256 "9182bc65dac541aa9f0bb92500ca90274c3d36daf69b0ac0b8249adfef1f61d0"
+      url "https://pkg.prose.md/cli/releases/0.15.0-rc.3/openprose-prose-cli-rust-0.15.0-rc.3-darwin-arm64.tar.gz"
+      sha256 "7fb6507a730bdc8f0559787033359b20fc61b90d62778a53fefc31691276b152"
     end
     on_intel do
-      url "https://pkg.prose.md/cli/releases/0.15.0-rc.2/openprose-prose-cli-rust-0.15.0-rc.2-darwin-x64.tar.gz"
-      sha256 "d9fd0db4f90f4a6abe9b36661c8be2166b821ba5167c9bc09845d85df67acf08"
+      url "https://pkg.prose.md/cli/releases/0.15.0-rc.3/openprose-prose-cli-rust-0.15.0-rc.3-darwin-x64.tar.gz"
+      sha256 "ad1bc60edc609bd1bcb78d7cbeddc132263467f9833d18d00ce8f86ac734a0fa"
     end
   end
   on_linux do
     on_arm do
-      url "https://pkg.prose.md/cli/releases/0.15.0-rc.2/openprose-prose-cli-rust-0.15.0-rc.2-linux-arm64-gnu.tar.gz"
-      sha256 "0ddfb835cc4debcd7c5c4e1db7cd4d7835a7682ec39e676c7174fdf76fccb954"
+      url "https://pkg.prose.md/cli/releases/0.15.0-rc.3/openprose-prose-cli-rust-0.15.0-rc.3-linux-arm64-gnu.tar.gz"
+      sha256 "2a79fdc3014c06308b9833f5fba3be170379d460fb3d4da5b3f1dce60d5546d3"
     end
     on_intel do
-      url "https://pkg.prose.md/cli/releases/0.15.0-rc.2/openprose-prose-cli-rust-0.15.0-rc.2-linux-x64-gnu.tar.gz"
-      sha256 "c0e1da4a25ab402b64358bfe8d95ed646bf7fd4883b8699a6e3e5e3a41402609"
+      url "https://pkg.prose.md/cli/releases/0.15.0-rc.3/openprose-prose-cli-rust-0.15.0-rc.3-linux-x64-gnu.tar.gz"
+      sha256 "804bbd4d93ba975d80a1ca3c96313de65ca4b404177ab2a671d8d2ccf3b291e7"
     end
   end
 
@@ -38,6 +38,6 @@ class ProseRust < Formula
   end
 
   test do
-    assert_equal "prose 0.15.0-rc.2 (rust)", shell_output("#{bin}/prose --version").strip
+    assert_equal "prose 0.15.0-rc.3 (rust)", shell_output("#{bin}/prose --version").strip
   end
 end
