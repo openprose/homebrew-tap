@@ -60,6 +60,9 @@ class LinkingBrew:
                     self.active.unlink()
             output = ''
         elif command == 'test':
+            name = argv[2].split('/')[-1]
+            if not self.active.is_symlink() or self.active.resolve().parent.parent.name != name:
+                return subprocess.CompletedProcess(argv, 1, '', 'Formula is not linked')
             output = ''
         elif command == '--version':
             name = Path(argv[0]).resolve().parent.parent.name
@@ -86,10 +89,10 @@ class UpgradeSelectionTests(unittest.TestCase):
         checks = upgrade.exercise(*args, runner=brew.run)
         for selected, other in (('bun', 'rust'), ('rust', 'bun')):
             labels = [check['name'] for check in checks]
-            expected = [selected + suffix for suffix in ('-unlink-selected-before-upgrade', '-upgrade-inactive',
-                        '-unlink-upgraded-inactive', '-upgrade-selected', '-restore-selected-link')]
+            expected = [selected + suffix for suffix in ('-unlink-selected-before-upgrade', '-upgrade-inactive', '-test-upgraded-inactive',
+                        '-unlink-upgraded-inactive', '-upgrade-selected', '-restore-selected-link', '-test-upgraded-selected')]
             positions = [labels.index(label) for label in expected]
-            self.assertEqual(positions, list(range(positions[0], positions[0] + 5)))
+            self.assertEqual(positions, list(range(positions[0], positions[0] + 7)))
             self.assertIn(['brew', 'upgrade', 'openprose/tap/prose-' + other], brew.commands)
         self.assertEqual(len([c for c in brew.commands if c[1] == 'upgrade']), 4)
         self.assertFalse(any('--force' in c or '--overwrite' in c for c in brew.commands))
