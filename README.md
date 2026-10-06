@@ -92,12 +92,26 @@ the tap. A future version-to-version upgrade remains to be tested.
 The scheduled update workflow checks the public guarded
 [RC pointer](https://pkg.prose.md/cli/channels/rc.json) hourly. It verifies the
 immutable manifest digest, qualification and all eight archive identities before
-preparing an update PR. Current formula hashes must match retained release
+preparing an update branch. Current formula hashes must match retained release
 inputs; unexpected edits, changed immutable releases and downgrades stop the
 update. Original release records remain intact. The bot explicitly starts
-four-platform installation checks for its PR. CI also verifies that the formulas
-and retained inputs still select the current public RC pointer. A PR requires release-owner
-review before merging. A workflow can also be dispatched manually.
+four-platform installation checks for the branch. CI also verifies that the
+formulas and retained inputs still select the current public RC pointer.
+The workflow reports the tested commit, installation run and comparison link.
+The release owner creates or reuses a PR, reviews it and merges after checks
+pass. A workflow can also be dispatched manually.
+
+The organization disallows GitHub Actions from creating PRs. Branch preparation
+and test dispatch use the tap's ordinary workflow token; PR creation uses the
+release owner's existing GitHub authentication. No new token or organization
+policy change is required. For example, replace the version below with the
+reported update version:
+
+```sh
+gh pr create --repo openprose/homebrew-tap --base main \
+  --head automation/rc-0.15.0-rc.3 --title "Select CLI 0.15.0-rc.3" \
+  --body "Select the qualified public RC; review retained inputs and installation checks."
+```
 
 Homebrew updates follow a qualified release's public pointer; publishing across
 npm, downloads and this tap is not one atomic transaction. CLI release CI tests

@@ -5,7 +5,7 @@ on:
     - cron: '17 * * * *'
 permissions:
   contents: write
-  pull-requests: write
+  pull-requests: read
   actions: write
 concurrency:
   group: published-rc-update
@@ -24,7 +24,7 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s tests -v
           python3 scripts/update.py --output "$RUNNER_TEMP/update.json"
-      - name: Open or reuse the reviewed update PR and start its installation checks
+      - name: Prepare the update branch and start its installation checks
         shell: bash
         run: |
           set -euo pipefail
@@ -37,8 +37,8 @@ jobs:
             exit 1
           fi
           branch="automation/rc-$version"
-          pr="$(gh pr list --head "$branch" --base main --state open --json url --jq '.[0].url // empty')"
-          if [ -z "$pr" ]; then
+          head_sha="$(git ls-remote --heads origin "refs/heads/$branch" | awk '{print $1}')"
+          if [ -z "$head_sha" ]; then
             git switch -c "$branch"
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -46,19 +46,8 @@ jobs:
             git diff --cached --check
             git commit -m "Select qualified CLI $version"
             git push origin "HEAD:refs/heads/$branch"
-            body="$RUNNER_TEMP/pr-body.md"
-            cat > "$body" <<'EOF'
-          Select the qualified public release recorded by the guarded RC pointer.
-          Both formulas retain their implementation identity and the prose command.
-          The manifest digest and archive identities are retained in release inputs.
-
-          Requires four-platform installation/switch checks and release-owner review.
-          No automatic merge or registry publication is performed by this workflow.
-          EOF
-            pr="$(gh pr create --base main --head "$branch" --title "Select CLI $version" --body-file "$body")"
+            head_sha="$(git rev-parse HEAD)"
           fi
-          echo "Update PR: $pr"
-          head_sha="$(gh pr view "$pr" --json headRefOid --jq .headRefOid)"
           if [[ ! "$head_sha" =~ ^[0-9a-f]{40}$ ]]; then exit 1; fi
           git fetch origin "$branch"
           test "$(git rev-parse FETCH_HEAD)" = "$head_sha"
@@ -66,6 +55,8 @@ jobs:
             git show "$head_sha:$path" > "$RUNNER_TEMP/pr-file"
             cmp "$path" "$RUNNER_TEMP/pr-file"
           done
+          pr="$(gh pr list --head "$branch" --base main --state open --json url --jq '.[0].url // empty')"
+          if [ -n "$pr" ]; then echo "Existing update PR: $pr"; fi
           export UPDATE_HEAD_SHA="$head_sha"
           run_url="$(gh run list --workflow test.yml --branch "$branch" --event workflow_dispatch --limit 30 --json headSha,url | python3 -c 'import json,os,sys; print(next((x["url"] for x in json.load(sys.stdin) if x["headSha"] == os.environ["UPDATE_HEAD_SHA"]), ""))')"
           if [ -z "$run_url" ]; then
@@ -81,4 +72,9 @@ jobs:
             exit 1
           fi
           echo "Installation run: $run_url"
-          printf 'Update PR: %s\n\nInstallation run: %s\n' "$pr" "$run_url" >> "$GITHUB_STEP_SUMMARY"
+          compare_url="https://github.com/$GH_REPO/compare/main...$branch"
+          echo "Tested branch: $branch ($head_sha)"
+          echo "Compare/create PR: $compare_url"
+          printf 'Tested branch: `%s`\n\nHead: `%s`\n\nInstallation run: %s\n\nCompare/create PR: %s\n' "$branch" "$head_sha" "$run_url" "$compare_url" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$pr" ]; then printf '\nExisting PR: %s\n' "$pr" >> "$GITHUB_STEP_SUMMARY"; fi
+          printf '\nRelease owner: create/review the PR with existing GitHub authentication; merge after checks pass.\n' >> "$GITHUB_STEP_SUMMARY"
