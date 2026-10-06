@@ -1,0 +1,206 @@
+{
+  "schema": "openprose.homebrew-local-check/1",
+  "version": "0.15.0-rc.2",
+  "platform": "darwin-arm64",
+  "homebrewVersion": "7.0.7",
+  "isolatedPrefix": true,
+  "isolatedInitiallyEmptyTrustConfiguration": true,
+  "tapWideTrustGranted": false,
+  "modelCalls": 0,
+  "checks": [
+    {
+      "argv": [
+        "brew",
+        "install",
+        "--build-from-source",
+        "openprose/tap/prose-bun"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a"
+    },
+    {
+      "argv": [
+        "brew",
+        "test",
+        "openprose/tap/prose-bun"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a"
+    },
+    {
+      "argv": [
+        "prose",
+        "--version"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a",
+      "stdout": "prose 0.15.0-rc.2 (bun)\n"
+    },
+    {
+      "argv": [
+        "brew",
+        "install",
+        "--build-from-source",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 1,
+      "expectedFailure": true,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a"
+    },
+    {
+      "argv": [
+        "brew",
+        "unlink",
+        "openprose/tap/prose-bun"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false
+    },
+    {
+      "argv": [
+        "brew",
+        "link",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "rust",
+      "selectedBinarySha256": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1"
+    },
+    {
+      "argv": [
+        "brew",
+        "test",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "rust",
+      "selectedBinarySha256": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1"
+    },
+    {
+      "argv": [
+        "prose",
+        "--version"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "rust",
+      "selectedBinarySha256": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1",
+      "stdout": "prose 0.15.0-rc.2 (rust)\n"
+    },
+    {
+      "argv": [
+        "brew",
+        "unlink",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false
+    },
+    {
+      "argv": [
+        "brew",
+        "link",
+        "openprose/tap/prose-bun"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a"
+    },
+    {
+      "argv": [
+        "prose",
+        "--version"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a",
+      "stdout": "prose 0.15.0-rc.2 (bun)\n"
+    },
+    {
+      "argv": [
+        "brew",
+        "link",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 1,
+      "expectedFailure": true,
+      "selectedImplementation": "bun",
+      "selectedBinarySha256": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a"
+    },
+    {
+      "argv": [
+        "brew",
+        "unlink",
+        "openprose/tap/prose-bun"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false
+    },
+    {
+      "argv": [
+        "brew",
+        "link",
+        "openprose/tap/prose-rust"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "rust",
+      "selectedBinarySha256": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1"
+    },
+    {
+      "argv": [
+        "prose",
+        "--version"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false,
+      "selectedImplementation": "rust",
+      "selectedBinarySha256": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1",
+      "stdout": "prose 0.15.0-rc.2 (rust)\n"
+    },
+    {
+      "argv": [
+        "brew",
+        "uninstall",
+        "prose-bun",
+        "prose-rust"
+      ],
+      "exitCode": 0,
+      "expectedFailure": false
+    }
+  ],
+  "binarySha256": {
+    "bun": "c236e27b2fc8c70287d29d1ad75ea083dcecbcf671407a927ad17717dbea962a",
+    "rust": "ed0678295481f9f32db3977fa7e07433ce6aff7dffd3adbf6c0cb2942312dff1"
+  },
+  "formulaSha256": {
+    "prose-bun.rb": "8253c320fa725474b8cd1cf6cc35809c5ae2b958d6ee379661c85e87ee913ce7",
+    "prose-rust.rb": "7cb88d15759cf90d0ae678143ec72ec6c0b2759551e6eae7bb415f04aa638088"
+  },
+  "bothKegsRetainedDuringSwitching": true,
+  "globalCommandsUnchanged": true,
+  "uninstallPassed": true,
+  "upgradeScope": "No newer qualified release exists; a future version transition remains to be tested.",
+  "styleCheck": {
+    "command": [
+      "brew",
+      "style",
+      "openprose/tap/prose-bun",
+      "openprose/tap/prose-rust"
+    ],
+    "exitCode": 0,
+    "filesInspected": 2,
+    "offenses": 0
+  }
+}

@@ -1,0 +1,84 @@
+name: Prepare published RC update
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+concurrency:
+  group: published-rc-update
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate updater controls and the public release
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -v
+          python3 scripts/update.py --output "$RUNNER_TEMP/update.json"
+      - name: Open or reuse the reviewed update PR and start its installation checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(python3 -c 'import json,os; print(str(json.load(open(os.environ["RUNNER_TEMP"]+"/update.json"))["changed"]).lower())')"
+          if [ "$changed" != true ]; then
+            exit 0
+          fi
+          version="$(python3 -c 'import json,os; print(json.load(open(os.environ["RUNNER_TEMP"]+"/update.json"))["version"])')"
+          if [[ ! "$version" =~ ^0\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)-rc\.([1-9][0-9]*)$ ]]; then
+            exit 1
+          fi
+          branch="automation/rc-$version"
+          pr="$(gh pr list --head "$branch" --base main --state open --json url --jq '.[0].url // empty')"
+          if [ -z "$pr" ]; then
+            git switch -c "$branch"
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add Formula/prose-bun.rb Formula/prose-rust.rb README.md "records/$version-inputs.json" "records/$version-manifest.json"
+            git diff --cached --check
+            git commit -m "Select qualified CLI $version"
+            git push origin "HEAD:refs/heads/$branch"
+            body="$RUNNER_TEMP/pr-body.md"
+            cat > "$body" <<'EOF'
+          Select the qualified public release recorded by the guarded RC pointer.
+          Both formulas retain their implementation identity and the prose command.
+          The manifest digest and archive identities are retained in release inputs.
+
+          Requires four-platform installation/switch checks and release-owner review.
+          No automatic merge or registry publication is performed by this workflow.
+          EOF
+            pr="$(gh pr create --base main --head "$branch" --title "Select CLI $version" --body-file "$body")"
+          fi
+          echo "Update PR: $pr"
+          head_sha="$(gh pr view "$pr" --json headRefOid --jq .headRefOid)"
+          if [[ ! "$head_sha" =~ ^[0-9a-f]{40}$ ]]; then exit 1; fi
+          git fetch origin "$branch"
+          test "$(git rev-parse FETCH_HEAD)" = "$head_sha"
+          for path in Formula/prose-bun.rb Formula/prose-rust.rb README.md "records/$version-inputs.json" "records/$version-manifest.json"; do
+            git show "$head_sha:$path" > "$RUNNER_TEMP/pr-file"
+            cmp "$path" "$RUNNER_TEMP/pr-file"
+          done
+          export UPDATE_HEAD_SHA="$head_sha"
+          run_url="$(gh run list --workflow test.yml --branch "$branch" --event workflow_dispatch --limit 30 --json headSha,url | python3 -c 'import json,os,sys; print(next((x["url"] for x in json.load(sys.stdin) if x["headSha"] == os.environ["UPDATE_HEAD_SHA"]), ""))')"
+          if [ -z "$run_url" ]; then
+            gh workflow run test.yml --ref "$branch"
+            for attempt in 1 2 3 4 5 6; do
+              run_url="$(gh run list --workflow test.yml --branch "$branch" --event workflow_dispatch --limit 30 --json headSha,url | python3 -c 'import json,os,sys; print(next((x["url"] for x in json.load(sys.stdin) if x["headSha"] == os.environ["UPDATE_HEAD_SHA"]), ""))')"
+              if [ -n "$run_url" ]; then break; fi
+              sleep 3
+            done
+          fi
+          if [ -z "$run_url" ]; then
+            echo "Installation workflow was dispatched but its run URL is not yet visible."
+            exit 1
+          fi
+          echo "Installation run: $run_url"
+          printf 'Update PR: %s\n\nInstallation run: %s\n' "$pr" "$run_url" >> "$GITHUB_STEP_SUMMARY"

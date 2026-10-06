@@ -1,0 +1,52 @@
+name: Verify Homebrew installs
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  updater-controls:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: python3 -m unittest discover -s tests -v
+      - run: python3 scripts/update.py --check-current
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel, ubuntu-22.04, ubuntu-22.04-arm]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_ANALYTICS: '1'
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - id: homebrew
+        uses: Homebrew/actions/setup-homebrew@dc7099b3e807f1e2ecc61f3ecabc840eedd5586a
+      - name: Install both implementations from this checked-out tap
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C "$(brew --repo openprose/tap)" rev-parse HEAD)" = "$GITHUB_SHA"
+          brew install --build-from-source openprose/tap/prose-bun
+          brew test openprose/tap/prose-bun
+          version="$(brew info --json=v2 openprose/tap/prose-bun | python3 -c 'import json,sys; print(json.load(sys.stdin)["formulae"][0]["versions"]["stable"])')"
+          test "$(prose --version)" = "prose $version (bun)"
+          brew unlink openprose/tap/prose-bun
+          brew install --build-from-source openprose/tap/prose-rust
+          brew test openprose/tap/prose-rust
+          rust_version="$(brew info --json=v2 openprose/tap/prose-rust | python3 -c 'import json,sys; print(json.load(sys.stdin)["formulae"][0]["versions"]["stable"])')"
+          test "$rust_version" = "$version"
+          test "$(prose --version)" = "prose $version (rust)"
+          brew unlink openprose/tap/prose-rust
+          brew link openprose/tap/prose-bun
+          test "$(prose --version)" = "prose $version (bun)"
+          brew unlink openprose/tap/prose-bun
+          brew link openprose/tap/prose-rust
+          test "$(prose --version)" = "prose $version (rust)"
+          brew uninstall prose-bun prose-rust
