@@ -105,6 +105,32 @@ class UpdateTests(unittest.TestCase):
         self.assertFalse(result['changed'])
         self.assertEqual(before, self.snapshot())
 
+    def test_check_current_rejects_consistently_rehashed_wrong_selector(self):
+        for mutation in ('url', 'digest'):
+            with self.subTest(mutation=mutation):
+                # Each case starts from a qualified fixture selected by both formulas.
+                if mutation == 'url':
+                    self.run_update()
+                formula = self.root / 'Formula/prose-bun.rb'
+                original = formula.read_text()
+                text = original.replace('https://pkg.prose.md/', 'https://example.invalid/', 1) if mutation == 'url' else original.replace('a' * 64, 'b' * 64, 1)
+                formula.write_text(text)
+                path = self.root / 'records/0.15.0-rc.3-inputs.json'
+                record = json.loads(path.read_text())
+                for item in record['formulas']:
+                    if item['file'] == formula.name:
+                        item['sha256'] = update.sha256(formula.read_bytes())
+                path.write_text(json.dumps(record))
+                before = self.snapshot()
+                with self.assertRaisesRegex(ValueError, 'selectors differ'):
+                    update.check_current(self.root, *self.checked_inputs())
+                self.assertEqual(before, self.snapshot())
+                formula.write_text(original)
+                for item in record['formulas']:
+                    if item['file'] == formula.name:
+                        item['sha256'] = update.sha256(formula.read_bytes())
+                path.write_text(json.dumps(record))
+
     def test_check_current_rejects_changed_record_metadata(self):
         self.run_update()
         path = self.root / 'records/0.15.0-rc.3-inputs.json'

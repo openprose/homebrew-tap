@@ -124,6 +124,12 @@ def prepare(root, pointer_raw, manifest_raw):
         require(isinstance(recorded_archives, list) and len(recorded_archives) == 8, 'Current archive inventory mismatch')
         require(sorted(json.dumps(x, sort_keys=True) for x in recorded_archives) == sorted(json.dumps(x, sort_keys=True) for x in archives.values()), 'Current archive identities mismatch')
         require(current.get('archiveBase') == BASE + f'cli/releases/{version}/' and current.get('manifestUrl') == BASE + pointer['manifest'], 'Current release URL mismatch')
+        for implementation, text in formula_text.items():
+            selectors = re.findall(r'      url "([^"]+)"\n      sha256 "([0-9a-f]{64})"', text)
+            require(len(selectors) == 4 and len(set(selectors)) == 4, 'Invalid current formula archive selectors')
+            require(len(re.findall(r'^\s+url ', text, re.MULTILINE)) == 4 and len(re.findall(r'^\s+sha256 ', text, re.MULTILINE)) == 4, 'Unexpected formula archive declarations')
+            expected_selectors = {(BASE + f'cli/releases/{version}/' + archives[implementation, platform]['name'], archives[implementation, platform]['sha256']) for platform in PLATFORMS}
+            require(set(selectors) == expected_selectors, 'Formula archive selectors differ from the public manifest')
         return {'changed': False, 'version': version}
 
     prepared = {}
