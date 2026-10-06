@@ -55,8 +55,28 @@ If npm or another installation already provides `prose`, choose your desired
 installation and adjust PATH or unlink that installation explicitly. This tap
 does not overwrite another installation's command automatically.
 
+## Upgrade
+
+If you have only one implementation installed, upgrade that formula normally.
+If both are installed, Homebrew attempts to link each upgraded formula, so a
+combined upgrade can collide at `prose`. To upgrade both while keeping Bun
+selected, use this explicit sequence:
+
 ```sh
-brew upgrade openprose/tap/prose-bun openprose/tap/prose-rust
+brew unlink openprose/tap/prose-bun
+brew upgrade openprose/tap/prose-rust
+brew unlink openprose/tap/prose-rust
+brew upgrade openprose/tap/prose-bun
+brew link openprose/tap/prose-bun
+prose --version
+```
+
+To keep Rust selected, reverse `prose-bun` and `prose-rust` in the sequence.
+The command is temporarily unlinked or switches implementation during these
+steps; the final link restores your selection. No existing command is overwritten.
+To remove both implementations:
+
+```sh
 brew uninstall prose-bun prose-rust
 ```
 
@@ -91,7 +111,9 @@ the tap. No version-to-version upgrade has executed for the initial RC2 tap: its
 has no earlier formula release. When a future candidate advances the selected
 release, the same four-platform CI installs the genuine qualified base archives
 and upgrades both formulas with Bun selected, then repeats with Rust selected.
-It checks that both versions advance and the selected `prose` remains unchanged.
+It upgrades the inactive keg first with the shared command explicitly unlinked,
+then upgrades and relinks the selected implementation. It checks that both versions
+advance and the final `prose` selection matches the original.
 The helper restores candidate formulas on failure; it never relabels release
 bytes to manufacture an upgrade. Bootstrap and same-version checks report an
 explicit skip, with the concrete base/candidate commits retained in CI artifacts.
