@@ -107,9 +107,18 @@ def exercise(root, base, candidate, brew, output, runner=subprocess.run):
             select(selected, base['version'], selected + '-before')
             for name in NAMES:
                 (root / 'Formula' / f'{name}.rb').write_text(candidate['formulas'][name])
-            command(selected + '-upgrade', [brew, 'upgrade', 'openprose/tap/prose-bun', 'openprose/tap/prose-rust'])
+            # Homebrew upgrades an unlinked formula by attempting to link it.
+            # Vacate the shared command, upgrade the inactive keg first, then
+            # restore the user's selected implementation without overwriting.
+            other = 'rust' if selected == 'bun' else 'bun'
+            command(selected + '-unlink-selected-before-upgrade', [brew, 'unlink', f'openprose/tap/prose-{selected}'])
+            command(selected + '-upgrade-inactive', [brew, 'upgrade', f'openprose/tap/prose-{other}'])
+            command(selected + '-test-upgraded-inactive', [brew, 'test', f'openprose/tap/prose-{other}'])
+            command(selected + '-unlink-upgraded-inactive', [brew, 'unlink', f'openprose/tap/prose-{other}'])
+            command(selected + '-upgrade-selected', [brew, 'upgrade', f'openprose/tap/prose-{selected}'])
+            command(selected + '-restore-selected-link', [brew, 'link', f'openprose/tap/prose-{selected}'])
+            command(selected + '-test-upgraded-selected', [brew, 'test', f'openprose/tap/prose-{selected}'])
             for name in NAMES:
-                command(selected + '-test-' + name, [brew, 'test', 'openprose/tap/' + name])
                 path = Path(command(selected + '-prefix-' + name, [brew, '--prefix', 'openprose/tap/' + name]))
                 implementation = name.split('-')[1]
                 banner = command(selected + '-version-' + name, [str(path / 'bin/prose'), '--version'])
